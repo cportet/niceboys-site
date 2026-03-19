@@ -41,6 +41,12 @@ h2 {
   padding: 0 1.5rem;
 }
 
+.container.center{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 header {
   padding: 2rem 0 2rem;
   text-align: center;
@@ -231,6 +237,37 @@ a.iconlink:hover{
   color: var(--text2);
   font-size: 1rem;
   margin: 0.4rem 0;
+}
+
+.message {
+    line-height: 1.5;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.btn-link {
+  display: inline-block;
+  padding: 0.4rem 1.5rem 0.6rem 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  background: var(--accent, #c084fc);
+  border: none;
+  border-radius: var(--radius, 10px);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow, 0 12px 32px rgba(0, 0, 0, 0.65));
+  font-variant-caps: all-small-caps;
+}
+
+.btn-link.center{
+  text-align: center;
+}
+
+.btn-link:hover {
+  background: var(--accent-dim, #9f7aea);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(159, 122, 234, 0.45);
 }
 
 .event-link {
