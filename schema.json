@@ -1,0 +1,28 @@
+{
+  "@context": "https://schema.org",
+  "@type": "MusicGroup",
+  "name": "Nice Boys",
+  "alternateName": "Nice Boys – Tribute Guns N' Roses",
+  "description": "Tribute band fidèle à Guns N' Roses, basé dans l'Ain (Auvergne-Rhône-Alpes). Reprises live explosives avec Cédric au chant, Alexis & Trystan aux guitares, Laurent à la basse et Jimmy à la batterie.",
+  "url": "https://niceboys.pages.dev",
+  "genre": "Hard Rock",
+  "musicGroupMember": [
+    { "@type": "OrganizationRole", "name": "Cédric", "roleName": "Chanteur principal" },
+    { "@type": "OrganizationRole", "name": "Alexis", "roleName": "Guitariste" },
+    { "@type": "OrganizationRole", "name": "Trystan", "roleName": "Guitariste" },
+    { "@type": "OrganizationRole", "name": "Laurent", "roleName": "Bassiste" },
+    { "@type": "OrganizationRole", "name": "Jimmy", "roleName": "Batteur" }
+  ],
+  "sameAs": [
+    "https://www.facebook.com/profile.php?id=100046665590020"
+  ],
+  "location": {
+    "@type": "Place",
+    "name": "Ain",
+    "address": {
+      "@type": "PostalAddress",
+      "addressRegion": "Auvergne-Rhône-Alpes",
+      "addressCountry": "FR"
+    }
+  }
+}
