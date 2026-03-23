@@ -156,7 +156,7 @@ header {
 }
 
 .team {
-  margin: 2rem 0;
+  margin: 2rem 0 4rem;
   text-align: center;
 }
 
@@ -176,7 +176,7 @@ header {
 }
 
 .upcoming {
-  margin: 2rem 0 6rem;
+  margin: 2rem 0 4rem;
 }
 
 .events-grid {
