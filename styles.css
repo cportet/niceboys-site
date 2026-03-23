@@ -260,6 +260,28 @@ a.iconlink:hover{
   font-variant-caps: all-small-caps;
 }
 
+.image-container{
+    max-width: 70%;
+    text-align: center;
+    place-self: center;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.image-container img{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.group{
+  display:flex;
+}
+
+.end-container{
+  margin-bottom: 20px;
+}
+
 .paragraph{
     font-size: 1rem;
     color: var(--text2);
