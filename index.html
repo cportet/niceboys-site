@@ -60,19 +60,110 @@
   "@context": "https://schema.org",
   "@type": "MusicGroup",
   "name": "Nice Boys",
+  "genre": "Hard Rock",
   "alternateName": "Nice Boys – Tribute Guns N' Roses",
   "description": "Tribute band fidèle à Guns N' Roses, basé dans l'Ain (Auvergne-Rhône-Alpes). Reprises live explosives avec Cédric au chant, Alexis & Trystan aux guitares, Laurent à la basse et Jimmy à la batterie.",
   "url": "https://niceboys.pages.dev",
-  "genre": "Hard Rock",
+  "image": "https://niceboys.pages.dev/group.jpg",
+  "keywords": "tribute Guns N' Roses, GnR tribute, Guns N' Roses cover band, tribute band, groupe rock, Auvergne-Rhône-Alpes, concert rock, Guns N' Roses, live, France",
+  "areaServed": {
+    "@type": "Place",
+    "name": "Auvergne-Rhône-Alpes, France"
+  },
+  "foundingLocation": {
+    "@type": "Place",
+    "name": "Ain, Auvergne-Rhône-Alpes, France"
+  },
   "musicGroupMember": [
-    { "@type": "OrganizationRole", "name": "Cédric", "roleName": "Chanteur principal" },
-    { "@type": "OrganizationRole", "name": "Alexis", "roleName": "Guitariste principal" },
-    { "@type": "OrganizationRole", "name": "Trystan", "roleName": "Guitariste rythmique" },
-    { "@type": "OrganizationRole", "name": "Laurent", "roleName": "Bassiste" },
-    { "@type": "OrganizationRole", "name": "Jimmy", "roleName": "Batteur" }
+    { "@type": "Person", "name": "Cédric", 
+      "jobTitle": "Chanteur principal",
+      "sameAs": "https://www.facebook.com/profile.php?id=100046665590020"},
+    { "@type": "Person", "name": "Alexis", 
+      "jobTitle": "Guitariste principal",
+      "sameAs": "https://www.instagram.com/alex.mrta"},
+    { "@type": "Person", "name": "Trystan", 
+      "jobTitle": "Guitariste rythmique",
+      "sameAs": "https://www.instagram.com/trystan_portet"},
+    { "@type": "Person", "name": "Laurent", 
+      "jobTitle": "Bassiste",
+      "sameAs": "https://www.facebook.com/laurent.achard"},
+    { "@type": "Person", "name": "Jimmy", 
+      "jobTitle": "Batteur",
+      "sameAs": "https://www.facebook.com/jimmy.cerullo"
+     }
   ],
   "sameAs": [
-    "https://www.facebook.com/profile.php?id=100046665590020"
+    "https://www.facebook.com/profile.php?id=100046665590020",
+    "https://www.instagram.com/_the_nice_boys_"
+  ],
+  "event": [
+    {
+      "@type": "MusicEvent",
+      "name": "Rock N' Beer",
+      "startDate": "2026-04-24",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "performer": {
+        "@type": "MusicGroup",
+        "name": "Nice Boys"},
+      "location": {
+        "@type": "Place",
+        "name": "Rock N' Beer",
+        "address": "Villefranche-sur-Saône, Rhône, France"
+      },
+      "description": "Concert Nice Boys - Tribute Guns N' Roses",
+      "url": "https://www.facebook.com/events/937559312360312"
+    },
+    {
+      "@type": "MusicEvent",
+      "name": "Rock Garage",
+      "startDate": "2026-04-11",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "performer": {
+        "@type": "MusicGroup",
+        "name": "Nice Boys"},
+      "location": {
+        "@type": "Place",
+        "name": "Rock Garage",
+        "address": "Sainte-Cécile, Saône-et-Loire, France"
+      },
+      "description": "Concert Nice Boys - Tribute Guns N' Roses",
+      "url": "https://www.facebook.com/events/906401298768970"
+    },
+    {
+      "@type": "MusicEvent",
+      "name": "Les Triplettes Social Club",
+      "startDate": "2026-03-20",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "performer": {
+        "@type": "MusicGroup",
+        "name": "Nice Boys"},
+      "location": {
+        "@type": "Place",
+        "name": "Les Triplettes Social Club",
+        "address": "Ambérieu-en-Bugey, Ain, France"
+      },
+      "description": "Concert Nice Boys - Tribute Guns N' Roses",
+      "url": "https://www.facebook.com/events/940163461780555"
+    }
+  ],
+  "subjectOf": [
+    {
+      "@type": "VideoObject",
+      "name": "Playlist Rock N' Beer - Nice Boys Tribute Guns N' Roses",
+      "url": "https://youtube.com/playlist?list=PLjQKikeh_vqyQs3buNDufR_HQpL8bXIco",
+      "description": "Enregistrement live complet au Rock N' Beer de Villefranche-sur-Saône"
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Playlist Rock Garage - Nice Boys Tribute Guns N' Roses",
+      "url": "https://youtube.com/playlist?list=PLjQKikeh_vqwkOhC5yYyyoWN31pDwnCTi"
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Playlist Triplettes Social Club - Nice Boys Tribute Guns N' Roses",
+      "url": "https://www.youtube.com/playlist?list=PLjQKikeh_vqyfrSmk6_CWH4S5D5OdlEwn",
+      "description": "Enregistrement live complet aux Triplettes Social Club d'Ambérieu-en-Bugey"
+    }
   ],
   "location": {
     "@type": "Place",
