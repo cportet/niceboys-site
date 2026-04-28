@@ -1,6 +1,6 @@
 :root {
   --bg:       #0a0a0a;
-  --surface:  #111111;
+  --surface:  #1a1a1a;
   --surface2: #1a1a1a;
   --text:     #e0e0e0;
   --text2:    #a0a0a0;
@@ -30,9 +30,16 @@ h2 {
   font-variant-caps: all-small-caps;
   color: var(--accent-dim);  
 }
-
 .socials h2{
   margin-bottom: 0.2rem;
+}
+
+p.align-left{
+  text-align: left;
+}
+
+p.margin-bottom{
+  margin-bottom: 1.5rem;
 }
 
 .container {
@@ -194,7 +201,7 @@ header {
 }
 
 .event-date {
-  background: #1f1f1f;
+  background: #272727;
   width: 140px;
   flex-shrink: 0;
   display: flex;
