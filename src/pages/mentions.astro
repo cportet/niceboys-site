@@ -1,0 +1,97 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import contactConfig from "../data/contact.json";
+
+const bookingSubject = encodeURIComponent(contactConfig.bookingSubject);
+const bookingMailto = `mailto:${contactConfig.bookingEmail}?subject=${bookingSubject}`;
+const lastUpdated = new Intl.DateTimeFormat("fr-FR", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric"
+}).format(new Date());
+---
+
+<BaseLayout
+  title="Nice Boys – Tribute Guns N' Roses en France | Mentions Légales"
+  canonicalPath="/mentions"
+>
+  <main class="container">
+    <section class="intro intro--wide">
+      <h2>Mentions légales</h2>
+      <p class="align-left margin-bottom">
+        Ce site est un projet amateur non commercial, réalisé pour le groupe de musique Nice Boys (tribute Guns N' Roses).
+      </p>
+      <p class="align-left margin-bottom">
+        Dernière mise à jour : {lastUpdated}
+      </p>
+    </section>
+
+    <section class="team team--wide">
+      <h2>Éditeur du site</h2>
+      <ul>
+        <li><strong>Projet :</strong> site vitrine non commercial du groupe Nice Boys</li>
+        <li>
+          <strong>Contact :</strong> <a class="inline-link" href={bookingMailto}>{contactConfig.bookingEmail}</a>
+        </li>
+        <li>
+          <strong>Présence officielle :</strong> <a class="inline-link" href="https://www.facebook.com/profile.php?id=100046665590020" target="_blank" rel="noopener">Facebook - Nice Boys</a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="team team--wide">
+      <h2>Hébergement</h2>
+      <ul>
+        <li>
+          <strong>Hébergeur :</strong> <a class="inline-link" href="https://pages.cloudflare.com/" target="_blank" rel="noopener">Cloudflare Pages</a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="team team--wide">
+      <h2>Données & confidentialité</h2>
+      <ul>
+        <li>Nous ne vendons pas tes données et nous n'exploitons pas de base marketing maison.</li>
+        <li>Le contact du site est un simple e-mail envoyé à un humain (pas de formulaire automatique caché).</li>
+        <li>À notre connaissance, aucun traceur publicitaire n'est déployé sur ce site.</li>
+      </ul>
+    </section>
+
+    <section class="team team--wide">
+      <h2>Mesure d'audience</h2>
+      <ul>
+        <li>
+          <strong>Statistiques :</strong> <a class="inline-link" href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a> (configuration orientée respect de la vie privée)
+        </li>
+        <li>
+          <strong>Analyse UX :</strong> <a class="inline-link" href="https://clarity.microsoft.com/" target="_blank" rel="noopener">Microsoft Clarity</a> (utilisé avec une intention de mesure respectueuse de la vie privée)
+        </li>
+      </ul>
+    </section>
+
+    <section class="team team--wide">
+      <h2>Technologies et composants open source</h2>
+      <ul>
+        <li><strong>Framework statique :</strong> Astro</li>
+        <li><strong>Icônes :</strong> Font Awesome</li>
+        <li><strong>Police :</strong> Inter (Google Fonts)</li>
+      </ul>
+    </section>
+
+    <section class="team team--wide">
+      <h2>Propriété intellectuelle</h2>
+      <ul>
+        <li>Les textes, photos et contenus publiés sur ce site restent la propriété de leurs auteurs respectifs.</li>
+        <li>Toute réutilisation, reproduction ou diffusion doit faire l'objet d'une autorisation préalable.</li>
+      </ul>
+    </section>
+
+    <section class="team team--wide">
+      <h2>Responsabilité</h2>
+      <ul>
+        <li>Malgré le soin apporté au contenu, des erreurs ou mises à jour tardives peuvent arriver.</li>
+        <li>Les liens externes restent sous la responsabilité de leurs éditeurs respectifs.</li>
+      </ul>
+    </section>
+  </main>
+</BaseLayout>

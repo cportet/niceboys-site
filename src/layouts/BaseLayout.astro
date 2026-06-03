@@ -1,0 +1,116 @@
+---
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteNav from "../components/SiteNav.astro";
+import "../styles/styles.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  keywords?: string;
+  robots?: string;
+  canonicalPath?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  includeFooter?: boolean;
+}
+
+const {
+  title,
+  description = "Nice Boys, tribute band Guns N' Roses basé dans l'Ain. Reprises des Guns N' Roses, concerts, Disponibles en Auvergne Rhône Alpes et toute la France. Booking",
+  keywords = "Nice Boys, Guns N' Roses tribute, Guns N' Roses France, GnR live, cover band, tribute band, Guns N' Roses, rock, hard rock, live, concert, festival, reprise Guns N' Roses, Ain, Rhône, Auvergne, trystan, alexis, jimmy, laurent, cédric, rock, GnR Tribute, Guns N' Roses cover, lyon",
+  robots = "index, follow",
+  canonicalPath = "/",
+  ogTitle = "Nice Boys – Tribute Guns N' Roses",
+  ogDescription = "Tribute Guns N' Roses. Rejoins-nous sur nos réseaux sociaux !",
+  includeFooter = true
+} = Astro.props;
+
+const baseSite = Astro.site ?? new URL("https://niceboys.pages.dev");
+const canonicalUrl = new URL(canonicalPath, baseSite).toString();
+const enableThirdPartyScripts = import.meta.env.PUBLIC_ENABLE_THIRD_PARTY_SCRIPTS !== "false";
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content="Nice Boys" />
+    <meta name="robots" content={robots} />
+
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Nice Boys - Tribute Guns N'Roses" />
+    <meta property="og:image" content="https://niceboys.pages.dev/logo-crop.png" />
+    <meta property="og:image:width" content="640" />
+    <meta property="og:image:height" content="600" />
+    <meta property="og:image:alt" content="Nice Boys - Tribute Guns N' Roses live" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content="Tribute Guns N' Roses explosif – dates, vidéos, booking. Welcome to the Jungle !" />
+    <meta name="twitter:image" content="https://niceboys.pages.dev/logo-crop.png" />
+
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta name="google-site-verification" content="uzrxiuhqRpICNSciTRl99CTMvrg1KYe2poK4leOJn-U" />
+    <meta name="msvalidate.01" content="F8FA9AB42FE9BD5F8345EAAC01A087E7" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    {
+      enableThirdPartyScripts && (
+        <script is:inline type="text/javascript">
+          const host = window.location.hostname;
+          const isLocalHost = host === "localhost" || host === "127.0.0.1" || host === "::1" || host === "[::1]" || host.endsWith(".local");
+
+          if (!isLocalHost) {
+            const goatCounterScript = document.createElement("script");
+            goatCounterScript.async = true;
+            goatCounterScript.src = "https://gc.zgo.at/count.js";
+            goatCounterScript.dataset.goatcounter = "https://niceboys.goatcounter.com/count";
+            document.head.appendChild(goatCounterScript);
+
+            (function(c, l, a, r, i, t, y) {
+              c[a] = c[a] || function() {
+                (c[a].q = c[a].q || []).push(arguments);
+              };
+              t = l.createElement(r);
+              t.async = 1;
+              t.src = "https://www.clarity.ms/tag/" + i;
+              y = l.getElementsByTagName(r)[0];
+              y.parentNode.insertBefore(t, y);
+            })(window, document, "clarity", "script", "wiqu333adh");
+          }
+        </script>
+      )
+    }
+
+    <slot name="head" />
+  </head>
+  <body>
+    <SiteHeader />
+    <SiteNav />
+    <slot />
+    {includeFooter && <SiteFooter />}
+  </body>
+</html>

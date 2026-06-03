@@ -1,0 +1,56 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import BackHomeLink from "../components/BackHomeLink.astro";
+import EventCard from "../components/EventCard.astro";
+import VideoPlaylistLink from "../components/VideoPlaylistLink.astro";
+import { videoEvents } from "../data/events";
+---
+
+<BaseLayout
+  title="Nice Boys – Nos concerts en vidéos"
+  canonicalPath="/concerts-videos"
+  description="Retrouve toutes les vidéos de concerts des Nice Boys."
+>
+  <main class="container">
+    <section class="intro intro--wide">
+      <h2>Nos concerts en vidéos</h2>
+      <p class="align-left margin-bottom">
+        Cette page rassemble toutes les vidéos de concerts publiées pour Nice Boys.
+      </p>
+      <p class="align-left margin-bottom">
+        Tu peux y retrouver les playlists complètes de nos lives passés.
+      </p>
+    </section>
+
+    <section class="upcoming">
+      <div class="events-grid">
+        {
+          videoEvents.length > 0 ? (
+            videoEvents.map((event) => (
+              event.videoPlaylistUrl ? (
+                <EventCard
+                  year={String(new Date(event.date).getFullYear())}
+                  day={event.uiDay}
+                  title={event.name}
+                  place={event.uiPlace}
+                  info={event.info}
+                >
+                  <VideoPlaylistLink
+                    href={event.videoPlaylistUrl}
+                    title={event.videoPlaylistTitle || `Playlist du concert - ${event.name}`}
+                  />
+                </EventCard>
+              ) : null
+            ))
+          ) : (
+            <EventCard year="-" day="" title="Aucune vidéo disponible pour le moment." />
+          )
+        }
+      </div>
+    </section>
+
+    <div class="container center">
+      <BackHomeLink />
+    </div>
+  </main>
+</BaseLayout>

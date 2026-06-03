@@ -1,0 +1,28 @@
+---
+interface Props {
+  year: string;
+  day: string;
+  title: string;
+  place?: string;
+  info?: string;
+}
+
+const { year, day, title, place, info } = Astro.props;
+---
+
+<div class="event-card">
+  <div class="event-date">
+    <div class="year">{year}</div>
+    <div class="day">{day}</div>
+  </div>
+  <div class="event-info">
+    <h3>{title}</h3>
+    {place && <p class="place">{place}</p>}
+    {info && info.trim().length > 0 && (
+      <p class="place">
+        <i class="fa-solid fa-circle-info" aria-hidden="true"></i> {info}
+      </p>
+    )}
+    <slot />
+  </div>
+</div>

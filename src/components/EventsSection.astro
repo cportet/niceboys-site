@@ -1,0 +1,14 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<section class="upcoming">
+  <h2>{title}</h2>
+  <div class="events-grid">
+    <slot />
+  </div>
+</section>

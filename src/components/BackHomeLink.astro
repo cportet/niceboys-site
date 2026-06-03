@@ -1,0 +1,9 @@
+---
+interface Props {
+  label?: string;
+}
+
+const { label = "Retour" } = Astro.props;
+---
+
+<a href="/" class="btn-link center end-container">{label}</a>

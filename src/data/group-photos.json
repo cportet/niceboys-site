@@ -1,0 +1,20 @@
+[
+  {
+    "fullImage": "/images/group/group_big.jpg",
+    "title": "Photo du groupe lors du concert aux Triplettes Social Club, à Ambérieu-en-Bugey, le 11/04/2026",
+    "alt": "La photo représente le groupe 'Nice Boys' en concert, sur scène, aux Triplettes Social Club d'Ambérieu-en-Bugey, le vendredi 11 avril 2026",
+    "thumbnailImage": "/images/group/group.jpg"
+  },
+  {
+    "fullImage": "/images/group/group2_big.jpg",
+    "title": "Photo du groupe lors du concert au Rock'N'Beer de Villefranche-sur-Saone en avril 2026",
+    "alt": "La photo représente le groupe 'Nice Boys' en court, sur la scène du bar Rock'N'Beer",
+    "thumbnailImage": "/images/group/group2.jpg"
+  },
+  {
+    "fullImage": "/images/group/group3_big.jpg",
+    "title": "Photo du groupe lors du concert au Rock Garage de Sainte-Cécile en avril 2026",
+    "alt": "La photo représente le groupe 'Nice Boys' en court, sur la scène du bar Rock Garage",
+    "thumbnailImage": "/images/group/group3.jpg"
+  }
+]

@@ -1,0 +1,200 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EventCard from "../components/EventCard.astro";
+import EventsSection from "../components/EventsSection.astro";
+import GroupCarousel from "../components/GroupCarousel.astro";
+import VideoPlaylistLink from "../components/VideoPlaylistLink.astro";
+import contactConfig from "../data/contact.json";
+import {
+  eventStatusMap,
+  eventsByDateDesc,
+  featuredVideoEvents,
+  hasMoreVideoEvents,
+  pastEvents,
+  upcomingEvent,
+  videoEvents
+} from "../data/events";
+
+const bookingSubject = encodeURIComponent(contactConfig.bookingSubject);
+const bookingMailto = `mailto:${contactConfig.bookingEmail}?subject=${bookingSubject}`;
+
+const musicGroupSchema = {
+  "@context": "https://schema.org",
+  "@type": "MusicGroup",
+  name: "Nice Boys",
+  genre: "Hard Rock",
+  alternateName: "Nice Boys – Tribute Band Guns N' Roses",
+  description:
+    "Tribute band fidèle aux Guns N' Roses, basé dans l'Ain (Auvergne-Rhône-Alpes). Reprises live explosives avec Cédric au chant, Alexis & Trystan aux guitares, Laurent à la basse et Jimmy à la batterie. Disponibles pour jouer partout en Auvergne, Rhône, Alpes, région lyonnaise, ville de lyon et chez vous",
+  url: "https://niceboys.pages.dev",
+  image: "https://niceboys.pages.dev/images/group/group.jpg",
+  keywords:
+    "tribute Guns N' Roses, GnR tribute, Guns N' Roses live, Guns N' Roses cover band, tribute band, groupe rock, Auvergne-Rhône-Alpes, concert rock, Guns N' Roses, live, France, Ain, Lyon, Rhône, welcome to the jungle",
+  areaServed: {
+    "@type": "Place",
+    name: "Auvergne-Rhône-Alpes, France"
+  },
+  makesOffer: {
+    "@type": "Offer",
+    availability: "https://schema.org/InStock",
+    url: bookingMailto
+  },
+  foundingLocation: {
+    "@type": "Place",
+    name: "Ain, Auvergne-Rhône-Alpes, France"
+  },
+  musicGroupMember: [
+    {
+      "@type": "Person",
+      name: "Cédric",
+      jobTitle: "Chanteur principal",
+      sameAs: "https://www.facebook.com/profile.php?id=100046665590020"
+    },
+    {
+      "@type": "Person",
+      name: "Alexis",
+      jobTitle: "Guitariste principal",
+      sameAs: "https://www.instagram.com/alex.mrta"
+    },
+    {
+      "@type": "Person",
+      name: "Trystan",
+      jobTitle: "Guitariste rythmique",
+      sameAs: "https://www.instagram.com/trystan_portet"
+    },
+    {
+      "@type": "Person",
+      name: "Laurent",
+      jobTitle: "Bassiste",
+      sameAs: "https://www.facebook.com/laurent.achard"
+    },
+    {
+      "@type": "Person",
+      name: "Jimmy",
+      jobTitle: "Batteur",
+      sameAs: "https://www.facebook.com/jimmy.cerullo"
+    }
+  ],
+  sameAs: [
+    "https://www.facebook.com/profile.php?id=100046665590020",
+    "https://www.instagram.com/_the_nice_boys_"
+  ],
+  event: eventsByDateDesc.map((event) => ({
+    "@type": "MusicEvent",
+    name: event.name,
+    startDate: event.date,
+    eventStatus: eventStatusMap[event.status],
+    performer: {
+      "@type": "MusicGroup",
+      name: "Nice Boys"
+    },
+    location: {
+      "@type": "Place",
+      name: event.venueName,
+      address: event.locationAddress
+    },
+    description: event.info ? `${event.description} — ${event.info}` : event.description,
+    url: event.sourceUrl || event.videoPlaylistUrl || "https://niceboys.pages.dev"
+  })),
+  subjectOf: videoEvents.map((event) => ({
+    "@type": "VideoObject",
+    name: event.videoPlaylistName || `Playlist ${event.name} - Nice Boys Tribute Guns N' Roses`,
+    url: event.videoPlaylistUrl || "",
+    description: `Enregistrement live complet - ${event.name}`
+  })),
+  location: {
+    "@type": "Place",
+    name: "Ain",
+    address: {
+      "@type": "PostalAddress",
+      addressRegion: "Auvergne-Rhône-Alpes",
+      addressCountry: "FR"
+    }
+  }
+};
+---
+
+<BaseLayout
+  title="Nice Boys – Tribute Guns N' Roses en France | Concerts live & booking"
+  canonicalPath="/"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(musicGroupSchema)} />
+
+  <main class="container">
+    <section class="socials">
+      <h2>Nous retrouver</h2>
+
+      <a href="https://www.facebook.com/profile.php?id=100046665590020" class="card" target="_blank" rel="noopener">
+        <div class="icon"><i class="fab fa-facebook-f"></i></div>
+        <div class="card-content">
+          <div class="card-title">Facebook</div>
+          <div class="card-subtitle">Suivez l'actualité & les annonces</div>
+        </div>
+      </a>
+
+      <a href="https://www.instagram.com/_the_nice_boys_" class="card" target="_blank" rel="noopener">
+        <div class="icon"><i class="fab fa-instagram"></i></div>
+        <div class="card-content">
+          <div class="card-title">Instagram</div>
+          <div class="card-subtitle">Photos & stories concerts</div>
+        </div>
+      </a>
+    </section>
+
+    <section class="team">
+      <h2>Le groupe en images</h2>
+      <GroupCarousel />
+    </section>
+
+    <EventsSection title="Prochain rendez-vous">
+      {
+        upcomingEvent ? (
+          <EventCard
+            year={String(new Date(upcomingEvent.date).getFullYear())}
+            day={upcomingEvent.uiDay}
+            title={upcomingEvent.name}
+            place={upcomingEvent.uiPlace}
+            info={upcomingEvent.info}
+          />
+        ) : (
+          <EventCard year="-" day="" title="Annonce prochainement" />
+        )
+      }
+      {
+        pastEvents.length > 0 && (
+          <p class="section-action">
+            <a class="inline-link" href="/anciens-evenements">Nos anciens événements</a>
+          </p>
+        )
+      }
+    </EventsSection>
+
+    <EventsSection title="Nos concerts en vidéo">
+      {
+        featuredVideoEvents.map((event) => (
+          event.videoPlaylistUrl ? (
+            <EventCard
+              year={String(new Date(event.date).getFullYear())}
+              day={event.uiDay}
+              title={event.name}
+              place={event.uiPlace}
+              info={event.info}
+            >
+              <VideoPlaylistLink
+                href={event.videoPlaylistUrl}
+                title={event.videoPlaylistTitle || `Playlist du concert - ${event.name}`}
+              />
+            </EventCard>
+          ) : null
+        ))
+      }
+      {
+        hasMoreVideoEvents && (
+          <p class="section-action">
+            <a class="inline-link" href="/concerts-videos">Voir plus de vidéos</a>
+          </p>
+        )
+      }
+    </EventsSection>
+  </main>
+</BaseLayout>

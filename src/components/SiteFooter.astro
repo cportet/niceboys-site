@@ -1,0 +1,14 @@
+---
+import contactConfig from "../data/contact.json";
+
+const bookingSubject = encodeURIComponent(contactConfig.bookingSubject);
+const bookingMailto = `mailto:${contactConfig.bookingEmail}?subject=${bookingSubject}`;
+---
+
+<footer>
+  <div class="container">
+    <p>
+      ©️ 2026 – Nice Boys – Tribute Guns N' Roses — <a id="contact-link" href={bookingMailto}>Contact</a>
+    </p>
+  </div>
+</footer>

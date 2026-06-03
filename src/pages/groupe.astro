@@ -1,0 +1,75 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import contactConfig from "../data/contact.json";
+
+const bookingSubject = encodeURIComponent(contactConfig.bookingSubject);
+const bookingMailto = `mailto:${contactConfig.bookingEmail}?subject=${bookingSubject}`;
+---
+
+<BaseLayout
+  title="Nice Boys – Le groupe & booking | Tribute Guns N' Roses en France"
+  canonicalPath="/groupe"
+  description="Présentation de Nice Boys : tribute Guns N' Roses, membres, formats de set, zone de déplacement et contact booking."
+  ogTitle="Nice Boys – Le groupe & booking"
+  ogDescription="Présentation du groupe Nice Boys, formats live et contact booking."
+>
+  <main class="container">
+    <section class="intro intro--wide">
+      <h2>Le groupe & booking</h2>
+      <p class="align-left margin-bottom">
+        Nous sommes les <strong>Nice Boys</strong>, tribute band Guns N' Roses basé dans l'Ain, en Auvergne-Rhône-Alpes, avec une proposition live pensée pour l'énergie, la scène et le contact public.
+      </p>
+      <p class="align-left margin-bottom">
+        Notre set reprend les classiques majeurs des Guns N' Roses avec une interprétation fidèle dans l'esprit, mais adaptée aux conditions réelles des bars, festivals, salles de concert et événements privés.
+      </p>
+      <p class="align-left margin-bottom">
+        Si tu cherches un groupe rock solide pour ton événement, n'hésite pas à nous contacter : on prépare le set avec toi en fonction du public, du timing et du format attendu.
+      </p>
+    </section>
+
+    <section class="team team--wide">
+      <h2>Composition</h2>
+      <ul>
+        <li><strong>Cédric : </strong>Chant, leader</li>
+        <li><strong>Alexis : </strong>Guitare lead</li>
+        <li><strong>Trystan : </strong>Guitare rythmique</li>
+        <li><strong>Laurent : </strong>Basse</li>
+        <li><strong>Jimmy : </strong>Batterie</li>
+      </ul>
+    </section>
+
+    <section class="team team--wide">
+      <h2>Identité du groupe</h2>
+      <ul>
+        <li><strong>Nom :</strong> Nice Boys</li>
+        <li><strong>Type :</strong> Tribute band Guns N' Roses</li>
+        <li><strong>Base :</strong> Ain (Auvergne-Rhône-Alpes)</li>
+        <li><strong>Zone :</strong> Ain, Rhône, Lyon, Auvergne-Rhône-Alpes, France</li>
+      </ul>
+    </section>
+
+    <section class="team team--wide">
+      <h2>Répertoire & format live</h2>
+      <ul>
+        <li><strong>Style :</strong> Hard rock / Guns N' Roses tribute</li>
+        <li><strong>Titres phares :</strong> Welcome to the Jungle, Sweet Child O' Mine, Paradise City</li>
+        <li><strong>Formats :</strong> bars, festivals, salles de concert, événements privés</li>
+        <li><strong>Set standard :</strong> 45 minutes à 1h15 environ</li>
+        <li><strong>Adaptable :</strong> format ajustable selon l'événement et la programmation</li>
+      </ul>
+    </section>
+
+    <section class="intro intro--wide">
+      <h2>Booking</h2>
+      <p class="align-left margin-bottom">
+        Contact booking : <a class="inline-link" href={bookingMailto}>{contactConfig.bookingEmail}</a>
+      </p>
+      <p class="align-left margin-bottom">
+        Pour les médias (photos, vidéos live, concerts passés), voir aussi la <a class="inline-link" href="/">page d'accueil</a>.
+      </p>
+      <p class="align-left margin-bottom">
+        Si tu as une date en tête, contacte-nous : on te répond rapidement pour valider la faisabilité.
+      </p>
+    </section>
+  </main>
+</BaseLayout>

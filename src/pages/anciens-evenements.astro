@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import BackHomeLink from "../components/BackHomeLink.astro";
+import EventCard from "../components/EventCard.astro";
+import { pastEvents } from "../data/events";
+---
+
+<BaseLayout
+  title="Nice Boys – Anciens événements"
+  canonicalPath="/anciens-evenements"
+  description="Historique des anciens événements et concerts des Nice Boys."
+>
+  <main class="container">
+    <section class="intro intro--wide">
+      <h2>Nos anciens événements</h2>
+      <p class="align-left margin-bottom">
+        Cette page regroupe les concerts déjà passés des Nice Boys.
+      </p>
+    </section>
+
+    <section class="upcoming">
+      <div class="events-grid">
+        {
+          pastEvents.length > 0 ? (
+            pastEvents.map((event) => (
+              <EventCard
+                year={String(new Date(event.date).getFullYear())}
+                day={event.uiDay}
+                title={event.name}
+                place={event.uiPlace}
+                info={event.info}
+              >
+                {
+                  event.sourceUrl && (
+                    <a href={event.sourceUrl} target="_blank" rel="noopener" class="event-link">
+                      Plus d'infos sur l'événement
+                    </a>
+                  )
+                }
+              </EventCard>
+            ))
+          ) : (
+            <EventCard year="-" day="" title="Aucun ancien événement pour le moment." />
+          )
+        }
+      </div>
+    </section>
+
+    <div class="container center">
+      <BackHomeLink />
+    </div>
+  </main>
+</BaseLayout>

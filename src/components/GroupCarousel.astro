@@ -1,0 +1,192 @@
+---
+import groupPhotosConfig from "../data/group-photos.json";
+
+interface GroupPhotoConfig {
+  fullImage?: string;
+  title?: string;
+  alt?: string | null;
+  thumbnailImage?: string | null;
+}
+
+const photos = (groupPhotosConfig as GroupPhotoConfig[]).map((item, index) => {
+  if (!item.fullImage || !item.title) {
+    throw new Error(`Invalid group photo config at index ${index}: "fullImage" and "title" are required.`);
+  }
+
+  return {
+    fullImage: item.fullImage,
+    title: item.title,
+    alt: item.alt?.trim() || item.title,
+    thumbnailImage: item.thumbnailImage?.trim() || item.fullImage
+  };
+});
+
+if (photos.length === 0) {
+  throw new Error("Group carousel configuration is empty.");
+}
+---
+
+<div class="photo-carousel-root" data-photo-carousel-root>
+  <div class="photo-carousel" data-photo-carousel>
+    <script type="application/json" data-photo-carousel-items set:html={JSON.stringify(photos)}></script>
+
+    <button class="photo-carousel__nav" type="button" data-photo-prev aria-label="Photo précédente">
+      <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+    </button>
+
+    <div class="photo-carousel__content">
+      <button class="photo-carousel__image-button" type="button" data-photo-open-modal aria-label="Agrandir la photo">
+        <img
+          class="photo-carousel__image"
+          data-photo-image
+          src={photos[0].thumbnailImage}
+          alt={photos[0].alt}
+          title={photos[0].title}
+          loading="lazy"
+        />
+        <span class="photo-carousel__index" data-photo-index>1 / {photos.length}</span>
+      </button>
+    </div>
+
+    <button class="photo-carousel__nav" type="button" data-photo-next aria-label="Photo suivante">
+      <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <div class="photo-modal" data-photo-modal hidden>
+    <button class="photo-modal__overlay" type="button" data-photo-close aria-label="Fermer la fenêtre"></button>
+    <div class="photo-modal__panel" role="dialog" aria-modal="true" aria-label="Image agrandie du groupe">
+      <button class="photo-modal__close" type="button" data-photo-close aria-label="Fermer">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+      <img class="photo-modal__image" data-photo-modal-image src={photos[0].fullImage} alt={photos[0].alt} title={photos[0].title} />
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  document.querySelectorAll("[data-photo-carousel-root]").forEach((root) => {
+    const AUTO_ADVANCE_MS = 5500;
+    const carousel = root.querySelector("[data-photo-carousel]");
+    const itemsScript = carousel?.querySelector("[data-photo-carousel-items]");
+    if (!carousel || !itemsScript) return;
+
+    const items = JSON.parse(itemsScript.textContent || "[]");
+    if (!Array.isArray(items) || items.length === 0) return;
+
+    const prevButton = carousel.querySelector("[data-photo-prev]");
+    const nextButton = carousel.querySelector("[data-photo-next]");
+    const openModalButton = carousel.querySelector("[data-photo-open-modal]");
+    const imageEl = carousel.querySelector("[data-photo-image]");
+    const indexEl = carousel.querySelector("[data-photo-index]");
+
+    const modal = root.querySelector("[data-photo-modal]");
+    const modalImageEl = root.querySelector("[data-photo-modal-image]");
+    const closeButtons = root.querySelectorAll("[data-photo-close]");
+
+    if (!prevButton || !nextButton || !openModalButton || !imageEl || !indexEl || !modal || !modalImageEl) return;
+
+    let currentIndex = 0;
+    let previousBodyOverflow = "";
+    let isPaused = false;
+    let autoAdvanceTimer = null;
+
+    const updateView = () => {
+      const current = items[currentIndex];
+
+      imageEl.src = current.thumbnailImage || current.fullImage;
+      imageEl.alt = current.alt || current.title;
+      imageEl.title = current.title;
+      indexEl.textContent = `${currentIndex + 1} / ${items.length}`;
+
+      modalImageEl.src = current.fullImage;
+      modalImageEl.alt = current.alt || current.title;
+      modalImageEl.title = current.title;
+
+      prevButton.disabled = currentIndex === 0;
+      nextButton.disabled = currentIndex === items.length - 1;
+    };
+
+    const goToPrevious = () => {
+      if (currentIndex > 0) {
+        currentIndex -= 1;
+        updateView();
+      }
+    };
+
+    const goToNext = () => {
+      if (currentIndex < items.length - 1) {
+        currentIndex += 1;
+        updateView();
+      }
+    };
+
+    const goToNextLoop = () => {
+      currentIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
+      updateView();
+    };
+
+    const clearAutoAdvance = () => {
+      if (autoAdvanceTimer) {
+        window.clearInterval(autoAdvanceTimer);
+        autoAdvanceTimer = null;
+      }
+    };
+
+    const startAutoAdvance = () => {
+      if (items.length < 2) return;
+      clearAutoAdvance();
+      autoAdvanceTimer = window.setInterval(() => {
+        if (isPaused || !modal.hidden) return;
+        goToNextLoop();
+      }, AUTO_ADVANCE_MS);
+    };
+
+    const pauseAutoAdvance = () => {
+      isPaused = true;
+    };
+
+    const resumeAutoAdvance = () => {
+      isPaused = false;
+    };
+
+    const openModal = () => {
+      if (!modal.hidden) return;
+      previousBodyOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      modal.hidden = false;
+    };
+
+    const closeModal = () => {
+      if (modal.hidden) return;
+      modal.hidden = true;
+      document.body.style.overflow = previousBodyOverflow;
+    };
+
+    prevButton.addEventListener("click", goToPrevious);
+    nextButton.addEventListener("click", goToNext);
+
+    openModalButton.addEventListener("click", openModal);
+    carousel.addEventListener("mouseenter", pauseAutoAdvance);
+    carousel.addEventListener("mouseleave", resumeAutoAdvance);
+    carousel.addEventListener("focusin", pauseAutoAdvance);
+    carousel.addEventListener("focusout", () => {
+      if (!carousel.contains(document.activeElement)) {
+        resumeAutoAdvance();
+      }
+    });
+
+    closeButtons.forEach((button) => {
+      button.addEventListener("click", closeModal);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    });
+
+    updateView();
+    startAutoAdvance();
+  });
+</script>
