@@ -1,0 +1,56 @@
+---
+/**
+ * Composant JSON-LD pour Nice Boys
+ * Schema.org MusicGroup + Events
+ */
+
+interface Props {
+  upcomingEvent?: {
+    title: string;
+    date: string;
+    location?: string;
+    url?: string;
+  };
+}
+
+const { upcomingEvent } = Astro.props;
+
+// Données du groupe Nice Boys - Tribute Guns N' Roses
+const musicGroupSchema = {
+  "@context": "https://schema.org",
+  "@type": "MusicGroup",
+  "name": "Nice Boys",
+  "alternateName": "Nice Boys – Tribute Guns N' Roses",
+  "genre": "Hard Rock",
+  "description": "Tribute band Guns N' Roses basé dans l'Ain. Reprises fidèles et énergiques.",
+  "url": "https://niceboys.pages.dev",
+  "image": "https://niceboys.pages.dev/images/group/niceboys-group.jpg",
+  "foundingLocation": {
+    "@type": "Place",
+    "name": "Ain, France"
+  },
+  "member": [
+    // À compléter avec les vrais membres
+    {"@type": "Person", "name": "Membres du groupe", "roleName": "Musicien"}
+  ],
+  "sameAs": [
+    "https://www.facebook.com/niceboysgnr",
+    "https://www.youtube.com/@niceboys"
+  ]
+};
+
+// Ajout dynamique d'un événement si présent
+if (upcomingEvent) {
+  musicGroupSchema.event = {
+    "@type": "Event",
+    "name": upcomingEvent.title,
+    "startDate": upcomingEvent.date,
+    "location": upcomingEvent.location,
+    "url": upcomingEvent.url || "https://niceboys.pages.dev/concerts"
+  };
+}
+
+const schema = JSON.parse(JSON.stringify(musicGroupSchema));
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
