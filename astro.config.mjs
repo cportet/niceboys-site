@@ -1,7 +1,10 @@
 import { defineConfig } from "astro/config";
 
+import cloudflare from "@astrojs/cloudflare";
+
 export default defineConfig({
   site: "https://niceboys.pages.dev",
+
   vite: {
     build: {
       cssCodeSplit: false,
@@ -17,5 +20,7 @@ export default defineConfig({
         }
       }
     }
-  }
+  },
+
+  adapter: cloudflare()
 });
