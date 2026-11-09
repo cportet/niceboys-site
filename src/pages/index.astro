@@ -4,18 +4,14 @@ import EventCard from "../components/EventCard.astro";
 import EventsSection from "../components/EventsSection.astro";
 import GroupCarousel from "../components/GroupCarousel.astro";
 import VideoPlaylistLink from "../components/VideoPlaylistLink.astro";
-import contactConfig from "../data/contact.json";
+import JsonLd from "../components/JsonLd.astro";
+import { buildMusicEventSchema, buildMusicGroupSchema } from "../data/schema";
 import {
-  eventStatusMap,
-  eventsByDateDesc,
   featuredVideoEvents,
   hasMoreVideoEvents,
   pastEvents,
   upcomingEvent
 } from "../data/events";
-
-const bookingSubject = encodeURIComponent(contactConfig.bookingSubject);
-const bookingMailto = `mailto:${contactConfig.bookingEmail}?subject=${bookingSubject}`;
 
 // Lieux déjà joués (texte local pour le SEO), dédoublonnés, du plus récent au plus ancien
 const playedPlaces = [
@@ -26,131 +22,17 @@ const playedPlaces = [
   )
 ];
 
-const musicGroupSchema = {
-  "@context": "https://schema.org",
-  "@type": "MusicGroup",
-  name: "Nice Boys",
-  genre: "Hard Rock",
-  alternateName: "Nice Boys – Tribute Band Guns N' Roses",
-  description:
-    "Tribute band fidèle aux Guns N' Roses, basé dans l'Ain (Auvergne-Rhône-Alpes). Reprises live explosives avec Cédric au chant, Alexis & Trystan aux guitares, Laurent à la basse et Jimmy à la batterie. Disponibles pour jouer partout en Auvergne, Rhône, Alpes, région lyonnaise, ville de lyon et chez vous",
-  url: "https://niceboys.pages.dev",
-  image: "https://niceboys.pages.dev/images/group/group.jpg",
-  keywords:
-    "tribute Guns N' Roses, GnR tribute, Guns N' Roses live, Guns N' Roses cover band, tribute band, groupe rock, Auvergne-Rhône-Alpes, concert rock, Guns N' Roses, live, France, Ain, Lyon, Rhône, welcome to the jungle",
-  areaServed: {
-    "@type": "Place",
-    name: "Auvergne-Rhône-Alpes, France"
-  },
-  makesOffer: {
-    "@type": "Offer",
-    availability: "https://schema.org/InStock",
-    url: bookingMailto
-  },
-  foundingLocation: {
-    "@type": "Place",
-    name: "Ain, Auvergne-Rhône-Alpes, France"
-  },
-  musicGroupMember: [
-    {
-      "@type": "Person",
-      name: "Cédric",
-      jobTitle: "Chanteur principal",
-      sameAs: "https://www.facebook.com/profile.php?id=100046665590020"
-    },
-    {
-      "@type": "Person",
-      name: "Alexis",
-      jobTitle: "Guitariste principal",
-      sameAs: "https://www.instagram.com/alex.mrta"
-    },
-    {
-      "@type": "Person",
-      name: "Trystan",
-      jobTitle: "Guitariste rythmique",
-      sameAs: "https://www.instagram.com/trystan_portet"
-    },
-    {
-      "@type": "Person",
-      name: "Laurent",
-      jobTitle: "Bassiste",
-      sameAs: "https://www.facebook.com/laurent.achard"
-    },
-    {
-      "@type": "Person",
-      name: "Jimmy",
-      jobTitle: "Batteur",
-      sameAs: "https://www.facebook.com/jimmy.cerullo"
-    }
-  ],
-  sameAs: [
-    "https://www.facebook.com/profile.php?id=100046665590020",
-    "https://www.instagram.com/_the_nice_boys_"
-  ],
-  event: eventsByDateDesc.map((event) => ({
-    "@type": "MusicEvent",
-    name: event.name,
-    startDate: event.date,
-    eventStatus: eventStatusMap[event.status],
-    performer: {
-      "@type": "MusicGroup",
-      name: "Nice Boys"
-    },
-    location: {
-      "@type": "Place",
-      name: event.venueName,
-      address: event.locationAddress
-    },
-    description: event.info ? `${event.description} — ${event.info}` : event.description,
-    url: event.sourceUrl || event.videoPlaylistUrl || "https://niceboys.pages.dev"
-  })),
-  location: {
-    "@type": "Place",
-    name: "Ain",
-    address: {
-      "@type": "PostalAddress",
-      addressRegion: "Auvergne-Rhône-Alpes",
-      addressCountry: "FR"
-    }
-  }
-};
-
+const musicGroupSchema = buildMusicGroupSchema();
 // Prochain concert en MusicEvent autonome : éligible aux résultats enrichis "Événements" de Google
-const upcomingEventSchema = upcomingEvent
-  ? {
-      "@context": "https://schema.org",
-      "@type": "MusicEvent",
-      name: `Nice Boys – Tribute Guns N' Roses @ ${upcomingEvent.venueName}`,
-      startDate: upcomingEvent.date,
-      eventStatus: eventStatusMap[upcomingEvent.status],
-      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-      description: upcomingEvent.info ? `${upcomingEvent.description} — ${upcomingEvent.info}` : upcomingEvent.description,
-      image: ["https://niceboys.pages.dev/og-image.jpg"],
-      url: upcomingEvent.sourceUrl || "https://niceboys.pages.dev/",
-      location: {
-        "@type": "Place",
-        name: upcomingEvent.venueName,
-        address: upcomingEvent.locationAddress
-      },
-      performer: {
-        "@type": "MusicGroup",
-        name: "Nice Boys",
-        url: "https://niceboys.pages.dev/"
-      },
-      organizer: {
-        "@type": "Organization",
-        name: upcomingEvent.venueName
-      }
-    }
-  : null;
+const upcomingEventSchema = upcomingEvent ? buildMusicEventSchema(upcomingEvent) : null;
 ---
 
 <BaseLayout
   title="Nice Boys – Tribute Guns N' Roses en France | Concerts live & booking"
   canonicalPath="/"
 >
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(musicGroupSchema)} />
-  {upcomingEventSchema && <script slot="head" type="application/ld+json" set:html={JSON.stringify(upcomingEventSchema)} />}
+  <JsonLd slot="head" data={musicGroupSchema} />
+  {upcomingEventSchema && <JsonLd slot="head" data={upcomingEventSchema} />}
 
   <main class="container">
     <section class="intro intro--wide">

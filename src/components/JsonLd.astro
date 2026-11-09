@@ -1,0 +1,15 @@
+---
+// Bloc de données structurées JSON-LD. Usage : <JsonLd slot="head" data={buildMusicGroupSchema()} />
+import type { JsonLdObject } from "../data/schema";
+
+interface Props {
+  data: JsonLdObject | JsonLdObject[];
+}
+
+const { data } = Astro.props;
+
+// "<" échappé pour qu'aucune valeur ne puisse fermer la balise <script>
+const json = JSON.stringify(data).replace(/</g, "\\u003c");
+---
+
+<script type="application/ld+json" set:html={json} />
