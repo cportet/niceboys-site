@@ -3,7 +3,7 @@
 // - Seules /offline.html et le logo sont précachés, pour afficher une page "Hors ligne"
 //   quand une navigation échoue faute de réseau.
 // Pour forcer la mise à jour de la page hors ligne : incrémenter CACHE_NAME.
-const CACHE_NAME = "niceboys-offline-v1";
+const CACHE_NAME = "niceboys-offline-v2";
 const OFFLINE_URL = "/offline.html";
 const LOGO_URL = "/logo.webp";
 

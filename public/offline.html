@@ -58,6 +58,8 @@
         cursor: pointer;
       }
       button:hover, button:focus-visible { background: #c084fc; color: #0a0a0a; }
+      button:disabled { opacity: 0.6; cursor: progress; }
+      .status { min-height: 1.4em; color: #c084fc; font-size: 0.95rem; }
     </style>
   </head>
   <body>
@@ -65,8 +67,24 @@
     <h1 class="title">NICE BOYS</h1>
     <p class="subtitle">Tribute Guns N' Roses</p>
     <p class="message">Pas de connexion pour le moment… on attend le retour du réseau pour remonter sur scène 🤘</p>
-    <button type="button" onclick="location.reload()">Actualiser</button>
+    <button type="button" id="retry">Actualiser</button>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
     <script>
+      const retryButton = document.getElementById("retry");
+      const statusEl = document.getElementById("status");
+
+      retryButton.addEventListener("click", () => {
+        // Toujours sans réseau : on le dit, au lieu de recharger la même page sans rien montrer
+        if (!navigator.onLine) {
+          statusEl.textContent = "Toujours pas de réseau… vérifie ta connexion et réessaie.";
+          return;
+        }
+        retryButton.disabled = true;
+        retryButton.textContent = "Connexion…";
+        statusEl.textContent = "";
+        location.reload();
+      });
+
       // Recharge automatiquement dès que la connexion revient
       window.addEventListener("online", () => location.reload());
     </script>
