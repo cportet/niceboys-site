@@ -7,8 +7,40 @@ const bookingMailto = `mailto:${contactConfig.bookingEmail}?subject=${bookingSub
 
 <footer>
   <div class="container">
+    <button type="button" class="install-app" data-install-app hidden>
+      <i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i> Installer l'app Nice Boys
+    </button>
     <p>
       ©️ 2026 – Nice Boys – Tribute Guns N' Roses — <a id="contact-link" href={bookingMailto}>Contact</a>
     </p>
   </div>
 </footer>
+
+<script is:inline>
+  // Bouton d'installation : n'apparaît que si le navigateur le permet (Chrome, Edge, Android).
+  // Sur iPhone : Partager > Sur l'écran d'accueil.
+  (() => {
+    const button = document.querySelector("[data-install-app]");
+    if (!button) return;
+    let deferredPrompt = null;
+
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      deferredPrompt = event;
+      button.hidden = false;
+    });
+
+    button.addEventListener("click", async () => {
+      if (!deferredPrompt) return;
+      button.hidden = true;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+    });
+
+    window.addEventListener("appinstalled", () => {
+      button.hidden = true;
+      deferredPrompt = null;
+    });
+  })();
+</script>

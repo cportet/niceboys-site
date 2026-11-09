@@ -104,6 +104,15 @@ const enableThirdPartyScripts = import.meta.env.PUBLIC_ENABLE_THIRD_PARTY_SCRIPT
       )
     }
 
+    <!-- PWA : service worker minimal (page hors ligne uniquement, aucune page du site en cache) -->
+    <script is:inline>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/sw.js").catch(() => {});
+        });
+      }
+    </script>
+
     <slot name="head" />
   </head>
   <body>

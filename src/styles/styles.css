@@ -562,6 +562,26 @@ footer a {
 
 footer a:hover { color: var(--accent); text-decoration: underline; }
 
+/* Bouton "Installer l'app" (affiché seulement si le navigateur propose l'installation) */
+.install-app {
+  margin: 0 auto 1rem;
+  padding: 0.55rem 1.3rem;
+  border: 1px solid var(--accent-dim);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.install-app:hover,
+.install-app:focus-visible {
+  background: var(--accent);
+  color: var(--bg);
+}
+.install-app[hidden] { display: none; }
+
 @media (max-width: 600px) {
   header { padding: 4rem 0 3rem; }
   .hero-title { font-size: clamp(3rem, 12vw, 5.5rem); }
