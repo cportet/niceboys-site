@@ -11,12 +11,20 @@ import {
   featuredVideoEvents,
   hasMoreVideoEvents,
   pastEvents,
-  upcomingEvent,
-  videoEvents
+  upcomingEvent
 } from "../data/events";
 
 const bookingSubject = encodeURIComponent(contactConfig.bookingSubject);
 const bookingMailto = `mailto:${contactConfig.bookingEmail}?subject=${bookingSubject}`;
+
+// Lieux déjà joués (texte local pour le SEO), dédoublonnés, du plus récent au plus ancien
+const playedPlaces = [
+  ...new Set(
+    pastEvents
+      .filter((event) => event.status === "completed")
+      .map((event) => event.uiPlace.replace(/^📍\s*/u, "").trim())
+  )
+];
 
 const musicGroupSchema = {
   "@context": "https://schema.org",
@@ -96,12 +104,6 @@ const musicGroupSchema = {
     description: event.info ? `${event.description} — ${event.info}` : event.description,
     url: event.sourceUrl || event.videoPlaylistUrl || "https://niceboys.pages.dev"
   })),
-  subjectOf: videoEvents.map((event) => ({
-    "@type": "VideoObject",
-    name: event.videoPlaylistName || `Playlist ${event.name} - Nice Boys Tribute Guns N' Roses`,
-    url: event.videoPlaylistUrl || "",
-    description: `Enregistrement live complet - ${event.name}`
-  })),
   location: {
     "@type": "Place",
     name: "Ain",
@@ -112,6 +114,35 @@ const musicGroupSchema = {
     }
   }
 };
+
+// Prochain concert en MusicEvent autonome : éligible aux résultats enrichis "Événements" de Google
+const upcomingEventSchema = upcomingEvent
+  ? {
+      "@context": "https://schema.org",
+      "@type": "MusicEvent",
+      name: `Nice Boys – Tribute Guns N' Roses @ ${upcomingEvent.venueName}`,
+      startDate: upcomingEvent.date,
+      eventStatus: eventStatusMap[upcomingEvent.status],
+      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      description: upcomingEvent.info ? `${upcomingEvent.description} — ${upcomingEvent.info}` : upcomingEvent.description,
+      image: ["https://niceboys.pages.dev/og-image.jpg"],
+      url: upcomingEvent.sourceUrl || "https://niceboys.pages.dev/",
+      location: {
+        "@type": "Place",
+        name: upcomingEvent.venueName,
+        address: upcomingEvent.locationAddress
+      },
+      performer: {
+        "@type": "MusicGroup",
+        name: "Nice Boys",
+        url: "https://niceboys.pages.dev/"
+      },
+      organizer: {
+        "@type": "Organization",
+        name: upcomingEvent.venueName
+      }
+    }
+  : null;
 ---
 
 <BaseLayout
@@ -119,8 +150,25 @@ const musicGroupSchema = {
   canonicalPath="/"
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(musicGroupSchema)} />
+  {upcomingEventSchema && <script slot="head" type="application/ld+json" set:html={JSON.stringify(upcomingEventSchema)} />}
 
   <main class="container">
+    <section class="intro intro--wide">
+      <p class="margin-bottom">
+        <strong>Nice Boys</strong> est un <strong>tribute band Guns N' Roses</strong> basé dans l'Ain (01), en Auvergne-Rhône-Alpes.
+        Welcome to the Jungle, Sweet Child O' Mine, Paradise City… on fait revivre les classiques des Guns en live
+        dans les bars, festivals, salles de concert et événements privés, de l'Ain à Lyon et partout en France.
+      </p>
+      {
+        playedPlaces.length > 0 && (
+          <p class="margin-bottom">
+            Déjà sur scène à {playedPlaces.join(", ")}.
+            Pour nous faire jouer chez vous : <a class="inline-link" href="/groupe/">le groupe & booking</a>.
+          </p>
+        )
+      }
+    </section>
+
     <section class="socials">
       <h2>Nous retrouver</h2>
 

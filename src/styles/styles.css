@@ -26,7 +26,8 @@ body {
   flex-direction: column;
 }
 
-h2 {
+h2,
+.page-title {
   border-top: 1px solid #313131;
   margin-bottom: 1.2rem;
   text-align: center;
@@ -127,6 +128,16 @@ header {
   color: var(--accent-dim);
   font-variant-caps: all-small-caps;
   font-weight: 500;
+}
+
+/* H1 de l'accueil : même rendu que le titre + sous-titre du header */
+.hero-heading {
+  font-size: inherit;
+  font-weight: inherit;
+}
+.hero-heading .hero-title,
+.hero-heading .subtitle {
+  display: block;
 }
 
 .intro {

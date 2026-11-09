@@ -4,11 +4,9 @@ import contactConfig from "../data/contact.json";
 
 const bookingSubject = encodeURIComponent(contactConfig.bookingSubject);
 const bookingMailto = `mailto:${contactConfig.bookingEmail}?subject=${bookingSubject}`;
-const lastUpdated = new Intl.DateTimeFormat("fr-FR", {
-  day: "2-digit",
-  month: "2-digit",
-  year: "numeric"
-}).format(new Date());
+// Date fixe : le site est rebuildé chaque jour, new Date() changerait la date en permanence.
+// À mettre à jour à la main quand le contenu de cette page change.
+const lastUpdated = "09/11/2026";
 ---
 
 <BaseLayout
@@ -17,7 +15,7 @@ const lastUpdated = new Intl.DateTimeFormat("fr-FR", {
 >
   <main class="container">
     <section class="intro intro--wide">
-      <h2>Mentions légales</h2>
+      <h1 class="page-title">Mentions légales</h1>
       <p class="align-left margin-bottom">
         Ce site est un projet amateur non commercial, réalisé pour le groupe de musique Nice Boys (tribute Guns N' Roses).
       </p>
