@@ -3,9 +3,21 @@
 // - Seules /offline.html et le logo sont précachés, pour afficher une page "Hors ligne"
 //   quand une navigation échoue faute de réseau.
 // Pour forcer la mise à jour de la page hors ligne : incrémenter CACHE_NAME.
-const CACHE_NAME = "niceboys-offline-v2";
+const CACHE_NAME = "niceboys-offline-v3";
 const OFFLINE_URL = "/offline.html";
 const LOGO_URL = "/logo.webp";
+
+// Cloudflare Pages redirige /offline.html -> /offline : la réponse en cache est alors "redirigée",
+// et Chrome refuse d'afficher une réponse redirigée pour une navigation (page d'erreur à la place).
+// On recrée donc une réponse neuve, non redirigée, avec le même contenu.
+async function cleanResponse(response) {
+  if (!response.redirected) return response;
+  return new Response(await response.blob(), {
+    status: 200,
+    statusText: "OK",
+    headers: response.headers
+  });
+}
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -43,7 +55,8 @@ self.addEventListener("fetch", (event) => {
           if (preloaded) return preloaded;
           return await fetch(request);
         } catch {
-          return (await caches.match(OFFLINE_URL)) || Response.error();
+          const cached = await caches.match(OFFLINE_URL);
+          return cached ? cleanResponse(cached) : Response.error();
         }
       })()
     );
