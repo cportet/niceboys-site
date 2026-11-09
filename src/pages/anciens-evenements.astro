@@ -2,6 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import BackHomeLink from "../components/BackHomeLink.astro";
 import EventCard from "../components/EventCard.astro";
+import JsonLd from "../components/JsonLd.astro";
+import { buildMusicEventSchema } from "../data/schema";
 import { pastEvents } from "../data/events";
 ---
 
@@ -10,6 +12,8 @@ import { pastEvents } from "../data/events";
   canonicalPath="/anciens-evenements/"
   description="Historique des anciens événements et concerts des Nice Boys."
 >
+  {pastEvents.length > 0 && <JsonLd slot="head" data={pastEvents.map(buildMusicEventSchema)} />}
+
   <main class="container">
     <section class="intro intro--wide">
       <h1 class="page-title">Nos anciens événements</h1>
