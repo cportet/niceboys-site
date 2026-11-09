@@ -1,14 +1,35 @@
+---
+// Sur l'accueil, le nom du groupe est le H1 de la page.
+// Sur les autres pages, chaque page porte son propre H1 (titre de la page).
+const isHome = Astro.url.pathname === "/";
+---
+
 <header>
   <div class="container">
     <div class="logo-wrapper">
       <img
-        src="/logo.png"
+        src="/logo.webp"
         alt="Logo Nice Boys"
         title="Nice Boys - Tribute Guns N' Roses"
         class="logo"
+        width="400"
+        height="347"
+        fetchpriority="high"
+        decoding="async"
       />
     </div>
-    <h1 class="hero-title">NICE BOYS</h1>
-    <p class="subtitle">Tribute Guns N' Roses</p>
+    {
+      isHome ? (
+        <h1 class="hero-heading">
+          <span class="hero-title">NICE BOYS</span>
+          <span class="subtitle">Tribute Guns N' Roses</span>
+        </h1>
+      ) : (
+        <>
+          <p class="hero-title">NICE BOYS</p>
+          <p class="subtitle">Tribute Guns N' Roses</p>
+        </>
+      )
+    }
   </div>
 </header>

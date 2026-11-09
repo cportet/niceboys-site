@@ -7,7 +7,6 @@ import "../styles/styles.css";
 interface Props {
   title: string;
   description?: string;
-  keywords?: string;
   robots?: string;
   canonicalPath?: string;
   ogTitle?: string;
@@ -17,8 +16,7 @@ interface Props {
 
 const {
   title,
-  description = "Nice Boys, tribute band Guns N' Roses basé dans l'Ain. Reprises des Guns N' Roses, concerts, Disponibles en Auvergne Rhône Alpes et toute la France. Booking",
-  keywords = "Nice Boys, Guns N' Roses tribute, Guns N' Roses France, GnR live, cover band, tribute band, Guns N' Roses, rock, hard rock, live, concert, festival, reprise Guns N' Roses, Ain, Rhône, Auvergne, trystan, alexis, jimmy, laurent, cédric, rock, GnR Tribute, Guns N' Roses cover, lyon",
+  description = "Nice Boys, tribute band Guns N' Roses basé dans l'Ain (01). Concerts live dans l'Ain, à Lyon et en Auvergne-Rhône-Alpes : bars, festivals, événements privés. Booking & vidéos.",
   robots = "index, follow",
   canonicalPath = "/",
   ogTitle = "Nice Boys – Tribute Guns N' Roses",
@@ -28,6 +26,7 @@ const {
 
 const baseSite = Astro.site ?? new URL("https://niceboys.pages.dev");
 const canonicalUrl = new URL(canonicalPath, baseSite).toString();
+const shareImageUrl = new URL("/og-image.jpg", baseSite).toString();
 const enableThirdPartyScripts = import.meta.env.PUBLIC_ENABLE_THIRD_PARTY_SCRIPTS !== "false";
 ---
 
@@ -39,7 +38,6 @@ const enableThirdPartyScripts = import.meta.env.PUBLIC_ENABLE_THIRD_PARTY_SCRIPT
     <title>{title}</title>
 
     <meta name="description" content={description} />
-    <meta name="keywords" content={keywords} />
     <meta name="author" content="Nice Boys" />
     <meta name="robots" content={robots} />
 
@@ -48,15 +46,16 @@ const enableThirdPartyScripts = import.meta.env.PUBLIC_ENABLE_THIRD_PARTY_SCRIPT
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Nice Boys - Tribute Guns N'Roses" />
-    <meta property="og:image" content="https://niceboys.pages.dev/logo-crop.png" />
-    <meta property="og:image:width" content="640" />
-    <meta property="og:image:height" content="600" />
-    <meta property="og:image:alt" content="Nice Boys - Tribute Guns N' Roses live" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:image" content={shareImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Les Nice Boys en concert – Tribute Guns N' Roses live" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content="Tribute Guns N' Roses explosif – dates, vidéos, booking. Welcome to the Jungle !" />
-    <meta name="twitter:image" content="https://niceboys.pages.dev/logo-crop.png" />
+    <meta name="twitter:image" content={shareImageUrl} />
 
     <meta name="theme-color" content="#000000" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
