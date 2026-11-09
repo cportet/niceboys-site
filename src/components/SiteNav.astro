@@ -1,9 +1,9 @@
 ---
 const navItems = [
   { href: "/", label: "Accueil" },
-  { href: "/groupe", label: "Le groupe & booking" },
-  { href: "/soutien", label: "Soutenez-nous" },
-  { href: "/mentions", label: "Mentions légales" }
+  { href: "/groupe/", label: "Le groupe & booking" },
+  { href: "/soutien/", label: "Soutenez-nous" },
+  { href: "/mentions/", label: "Mentions légales" }
 ];
 
 const normalizePath = (path: string) => (path !== "/" && path.endsWith("/") ? path.slice(0, -1) : path);
@@ -15,7 +15,7 @@ const currentPath = normalizePath(Astro.url.pathname);
     <ul class="site-nav__list" role="list">
       {
         navItems.map((item) => {
-          const isActive = currentPath === item.href;
+          const isActive = currentPath === normalizePath(item.href);
           return (
             <li>
               <a href={item.href} class:list={["site-nav__link", { "is-active": isActive }]} aria-current={isActive ? "page" : undefined}>
@@ -34,7 +34,7 @@ const currentPath = normalizePath(Astro.url.pathname);
       <ul class="site-nav__mobile-list" role="list">
         {
           navItems.map((item) => {
-            const isActive = currentPath === item.href;
+            const isActive = currentPath === normalizePath(item.href);
             return (
               <li>
                 <a href={item.href} class:list={["site-nav__mobile-link", { "is-active": isActive }]} aria-current={isActive ? "page" : undefined}>

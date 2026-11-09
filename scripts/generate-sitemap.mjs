@@ -98,7 +98,7 @@ for (const htmlFile of htmlFiles) {
 
   sitemapEntries.push({
     routePath,
-    url: `${SITE_URL}${routePath === "/" ? "/" : routePath}`,
+    url: `${SITE_URL}${routePath === "/" ? "/" : `${routePath}/`}`,
     lastmod,
     changefreq: meta.changefreq,
     priority: meta.priority

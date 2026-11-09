@@ -157,13 +157,13 @@ const musicGroupSchema = {
             info={upcomingEvent.info}
           />
         ) : (
-          <EventCard year="-" day="" title="Annonce prochainement" />
+          <EventCard year="Bientôt" day="À venir" title="Annonce prochainement" />
         )
       }
       {
         pastEvents.length > 0 && (
           <p class="section-action">
-            <a class="inline-link" href="/anciens-evenements">Nos anciens événements</a>
+            <a class="inline-link" href="/anciens-evenements/">Nos anciens événements</a>
           </p>
         )
       }
@@ -191,7 +191,7 @@ const musicGroupSchema = {
       {
         hasMoreVideoEvents && (
           <p class="section-action">
-            <a class="inline-link" href="/concerts-videos">Voir plus de vidéos</a>
+            <a class="inline-link" href="/concerts-videos/">Voir plus de vidéos</a>
           </p>
         )
       }

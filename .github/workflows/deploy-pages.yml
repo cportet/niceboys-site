@@ -1,0 +1,50 @@
+# Build Astro + déploiement sur le projet Cloudflare Pages "niceboys"
+# (https://niceboys.pages.dev).
+#
+# Déclencheurs :
+#  - push sur main
+#  - lancement manuel (onglet Actions)
+#  - tous les jours à 5h UTC : le "Prochain rendez-vous" est calculé au build,
+#    un rebuild quotidien fait basculer automatiquement un concert passé.
+#
+# Secrets GitHub requis (Settings > Secrets and variables > Actions) :
+#   CLOUDFLARE_API_TOKEN  : token avec la permission "Account > Cloudflare Pages > Edit"
+#   CLOUDFLARE_ACCOUNT_ID : ID du compte Cloudflare
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: "0 5 * * *"
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # historique complet : le sitemap utilise git log pour <lastmod>
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=niceboys --branch=main --commit-dirty=true
