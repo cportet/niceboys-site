@@ -15,6 +15,9 @@ name: Deploy to Cloudflare Pages
 on:
   push:
     branches: [main]
+    # Les changements de documentation seule (README…) ne changent pas le site : pas de déploiement
+    paths-ignore:
+      - "**.md"
   workflow_dispatch:
   schedule:
     - cron: "0 5 * * *"
