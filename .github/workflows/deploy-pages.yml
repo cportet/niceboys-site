@@ -48,3 +48,11 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist --project-name=niceboys --branch=main --commit-dirty=true
+
+      # Signale les pages à Bing & co (IndexNow). Pas sur le rebuild quotidien :
+      # IndexNow demande de ne signaler que les mises à jour réelles.
+      # En cas d'échec, le déploiement reste valide (continue-on-error).
+      - name: Notify IndexNow
+        if: github.event_name != 'schedule'
+        continue-on-error: true
+        run: node scripts/indexnow.mjs
